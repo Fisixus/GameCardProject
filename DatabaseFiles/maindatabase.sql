@@ -15,7 +15,6 @@ CREATE TABLE PRODUCT (
     Summary VARCHAR(256),
     SourceOfSupply VARCHAR(32),
     NumberOfProduct INTEGER,
-    Avg_rate        DOUBLE,
     PRIMARY KEY(Id)
 );
 
@@ -33,7 +32,7 @@ CREATE TABLE GAMECARD (
 CREATE TABLE BOARDGAME (
     Pid         INTEGER CONSTRAINT Prod_FK_4 REFERENCES PRODUCT (Id) ON DELETE CASCADE
                                                                      ON UPDATE SET NULL
-                                                          NOT NULL
+                                                          NOT NULL,
     PersonNum   VARCHAR(4),
     AgeRestrict VARCHAR(4)
 
