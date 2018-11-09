@@ -1,0 +1,19 @@
+{% extends 'base_login.html' %} {% block content %}
+<div class="container2">
+
+  <form class="contact"  method="post" style="height:300px; margin-top: 130px;">
+    
+
+    <h2>User Informations</h2>
+    <fieldset>
+      <input placeholder="User Email" type="email" tabindex="2" name="user_email" style="text-indent: 10px; width: 25%;" required>
+    </fieldset>
+    <fieldset>
+      <input placeholder="User Password" type="password" tabindex="2" name="user_password" style="text-indent: 10px; width: 25%;" required>
+    </fieldset>
+    <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Sign in</button>
+    </fieldset>
+  </form>
+</div>
+
+{% endblock %}

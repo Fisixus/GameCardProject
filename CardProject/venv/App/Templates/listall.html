@@ -1,0 +1,21 @@
+{% extends 'base.html' %} {% block content %}
+<div style="margin-top: 50px;">
+  <table border="1">
+    <thead>
+      <td>Name</td>
+      <td>Price</td>
+      <td>Source Of Supply</td>
+      <td>Number Of Product</td>
+    </thead>
+
+    {% for row in rows %}
+    <tr>
+      <td>{{ row["Name"] }}</td>
+      <td>{{ row["Price"] }}</td>
+      <td>{{ row["SourceOfSupply"] }}</td>
+      <td>{{ row["NumberOfProduct"] }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}
