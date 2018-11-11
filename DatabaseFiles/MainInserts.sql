@@ -13,7 +13,7 @@ INSERT INTO CUSTOMER VALUES(11,'snicks@gmail.com','Fleetwood Street','Stevie','N
 INSERT INTO PRODUCT VALUES(1,'Blue Eyes White Dragon','10.15','This legendary dragon is a powerful engine of destruction. Virtually invincible, very few have faced this awesome creature and lived to tell the tale.','ToysRus',5);
 INSERT INTO PRODUCT VALUES(2,'Dark Magician','50.25','The ultimate wizard in terms of attack and defense.','DuelMonsters',2);
 INSERT INTO PRODUCT VALUES(3,'Monopoly','26.71','The classic game of buying and selling.','HasbroGaming',15);
-INSERT INTO PRODUCT VALUES(4,'Kaiba Starter Deck','143,11','The original Dueling Legends get their Decks updated in Yugi - Reloaded and Kaiba - Reloaded Starter Decks. Each 50-card Deck features that characters favorite cards and is tuned to provide easy learning of the Yu-Gi-Oh!','DuelMonsters',3);
+INSERT INTO PRODUCT VALUES(4,'Kaiba Starter Deck','143.11','The original Dueling Legends get their Decks updated in Yugi - Reloaded and Kaiba - Reloaded Starter Decks. Each 50-card Deck features that characters favorite cards and is tuned to provide easy learning of the Yu-Gi-Oh!','DuelMonsters',3);
 INSERT INTO PRODUCT VALUES(5,'Codebreaker Starter Deck','7.22','Codebreaker introduces the basics of Dueling with cards that are strong and easy to understand. New Duelists can learn the basics of Link Summoning using "Code Talker" Link Monsters, then use this Starter Deck as a base to build their own unique Deck by collecting Cyberse monsters.','DuelMonsters',22);
 INSERT INTO PRODUCT VALUES(6,'Taboo','15.50',NULL,'HasbroGaming',22);
 INSERT INTO PRODUCT VALUES(7,'Daretti, Ingenious Iconoclast','30.74','Legendary Planeswalker — Daretti.','ToysRus',5);
