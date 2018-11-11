@@ -1,17 +1,20 @@
-
-
 from flask import Flask, render_template, request, g, session, url_for, redirect
-import sqlite3 as sql
+import psycopg2 as sql
+import os
+import psycopg2.errorcodes
+import psycopg2.extras
+
+psycopg2.errorcodes.UNIQUE_VIOLATION
 
 app = Flask(__name__, template_folder='Templates')
 
-DATABASE = 'C:\sqlite\ProjeDB.db'
-# Set the secret key to some random bytes. Keep this really secret!
+DATABASE_URL = os.environ['DATABASE_URL']
 app.secret_key = b'_1#y2L"F4Q8z\n\xec]/'
 
 def connect_db():
-    return sql.connect(DATABASE)
-
+    con = sql.connect(DATABASE_URL)
+    con.cursor_factory = psycopg2.extras.NamedTupleCursor
+    return con
 
 @app.before_request
 def before_request():
@@ -26,11 +29,10 @@ def teardown_request(exception):
 #Ana sayfa
 @app.route('/listall')
 def listall():
-   #if 'user_email' not in session.keys():
-    #    return redirect('login')
+   if 'user_email' not in session.keys():
+        return redirect('login')
    con = connect_db()
-   con.row_factory = sql.Row
-
+   
    cur = con.cursor()
    query =  "SELECT * FROM PRODUCT ORDER BY Name "
    cur.execute(query)
@@ -44,7 +46,6 @@ def listgamecards():
    if 'user_email' not in session.keys():
         return redirect('login')
    con = connect_db()
-   con.row_factory = sql.Row
 
    cur = con.cursor()
    query =  "SELECT * FROM PRODUCT,GAMECARD WHERE id = pid ORDER BY Name "
@@ -59,7 +60,6 @@ def listboardgames():
    if 'user_email' not in session.keys():
         return redirect('login')
    con = connect_db()
-   con.row_factory = sql.Row
 
    cur = con.cursor()
    query =  "SELECT * FROM PRODUCT,BOARDGAME WHERE id = pid ORDER BY Name "
@@ -69,13 +69,10 @@ def listboardgames():
    con.close()
    return render_template('listboardgames.html', rows=rows)
 
-
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == "POST":
         con = connect_db()
-        con.row_factory = sql.Row
 
         cur = con.cursor()
         query = "SELECT Email,Password FROM CUSTOMER \

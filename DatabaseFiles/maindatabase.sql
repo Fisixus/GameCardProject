@@ -12,7 +12,7 @@ CREATE TABLE PRODUCT (
     Id INTEGER NOT NULL,
     Name VARCHAR(64)  NOT NULL UNIQUE,
     Price DECIMAL(5,2),
-    Summary VARCHAR(256),
+    Summary VARCHAR(512),
     SourceOfSupply VARCHAR(32),
     NumberOfProduct INTEGER,
     PRIMARY KEY(Id)
@@ -22,8 +22,8 @@ CREATE TABLE GAMECARD (
     Pid       INTEGER      NOT NULL
                 CONSTRAINT Prod_FK_3 REFERENCES PRODUCT (Id) ON DELETE CASCADE
                                                             ON UPDATE SET NULL,
-    Type      VARCHAR (16),
-    Rarety    VARCHAR (16),
+    Type      VARCHAR (32),
+    Rarety    VARCHAR (32),
     BulkOrOne CHAR (1)
 
 );
@@ -62,6 +62,6 @@ CREATE TABLE REVIEW (
                                                                       ON UPDATE SET NULL
                          NOT NULL,
     Comment VARCHAR (64),
-    Time    DATETIME
+    Time    TIMESTAMP
 );
 
