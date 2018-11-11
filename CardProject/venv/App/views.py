@@ -2,6 +2,7 @@
 
 from flask import Flask, render_template, request, g, session, url_for, redirect
 import sqlite3 as sql
+
 app = Flask(__name__, template_folder='Templates')
 
 DATABASE = 'C:\sqlite\ProjeDB.db'
@@ -25,8 +26,8 @@ def teardown_request(exception):
 #Ana sayfa
 @app.route('/listall')
 def listall():
-   if 'user_email' not in session.keys():
-        return redirect('login')
+   #if 'user_email' not in session.keys():
+    #    return redirect('login')
    con = connect_db()
    con.row_factory = sql.Row
 
@@ -96,6 +97,84 @@ def logout():
     # remove the username from the session if it's there
     session.pop('user_email', None)
     return redirect(url_for('login'))
+
+
+
+item_table = [
+    {
+        'Name': 'Yugioh',
+        'Price': 55,
+        'SourceOfSupply': 'www.hepsiburada.com',
+        'NumberOfProduct': 5
+    },
+    {
+        'Name': 'Final Fantasy',
+        'Price': 100,
+        'SourceOfSupply': 'www.hepsiburada.com',
+        'NumberOfProduct': 10
+    },
+    {
+        'Name': 'Dj Dikkat',
+        'Price': 5,
+        'SourceOfSupply': 'www.mardatoni.com',
+        'NumberOfProduct': 1
+    },
+
+]
+
+cargo_companies = [
+    {
+        'Name': 'Yurtici Kargo',
+        'Deliver_time': '2 Weeks',
+        'Price': 50
+    },
+    {
+        'Name': 'Osman Kargo',
+        'Deliver_time': '3 Days',
+        'Price': 150
+    },
+    {
+        'Name': 'UPS Kargo',
+        'Deliver_time': '1 Week',
+        'Price': 100
+    }
+]
+
+
+
+
+shopping_list = {} # Alisveris listesi olusturulabilir.
+
+
+@app.route('/listall_deneme')
+def deneme():
+    return render_template("listall_deneme.html", table=item_table)
+
+
+@app.route('/cargo')
+def cargo():
+    item = request.args.get('item')
+    for i in range (0, len(item_table)):
+        if item_table[i]['Name'] == item:
+            item_dict = item_table[i]
+
+    return render_template("cargo.html", item_dict=item_dict, cargo_companies=cargo_companies)
+
+
+@app.route('/payment')
+def payment():
+    item_name = request.args.get('item_name') # Alinan argumanlar her zaman string
+    item_price = request.args.get('item_price')
+    cargo = request.args.get('cargo')
+
+    for company in cargo_companies:
+        if company['Name'] == cargo:
+            cargo_price = company['Price']
+
+    total_price = int(item_price) + cargo_price
+    return render_template("payment.html", item_name=item_name, total_price=total_price)
+    # payment.html'ye kart mi kutu mu bilgisi goturulup 'yugioh kartiniz', 'monopoly kutu oyununuz' gibi ifadeler kullanilabilir.
+
 
 if __name__ == '__main__':
    app.run(debug = True)

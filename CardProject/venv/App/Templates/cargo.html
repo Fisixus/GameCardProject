@@ -1,0 +1,19 @@
+<div style="margin-top: 50px;">
+    {{ item_dict['Name'] }} urununun fiyati: {{ item_dict['Price'] }}
+
+    <table border="1">
+        <thead>
+            <td> Company Name </td>
+            <td> Est. Deliver Time </td>
+            <td> Price </td>
+        </thead>
+        {% for cargo in cargo_companies %}
+        <tbody>
+            <td> {{ cargo['Name'] }}</td>
+            <td> {{ cargo['Deliver_time'] }}</td>
+            <td> {{ cargo['Price'] }}</td>
+            <td><a href={{ url_for('payment', item_name=item_dict['Name'], item_price=item_dict['Price'], cargo=cargo['Name']) }}> Satin Al </a></td>
+        </tbody>
+        {% endfor %}
+    </table>
+</div>
