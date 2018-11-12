@@ -3,6 +3,7 @@ import psycopg2 as sql
 import os
 import psycopg2.errorcodes
 import psycopg2.extras
+from pprint import pprint
 
 psycopg2.errorcodes.UNIQUE_VIOLATION
 
@@ -29,12 +30,12 @@ def teardown_request(exception):
 #Ana sayfa
 @app.route('/listall')
 def listall():
-   if 'user_email' not in session.keys():
-        return redirect('login')
+   #if 'user_email' not in session.keys():
+     #   return redirect('login')
    con = connect_db()
    
    cur = con.cursor()
-   query =  "SELECT * FROM PRODUCT ORDER BY Name "
+   query =  "SELECT DISTINCT * FROM PRODUCT ORDER BY Name "
    cur.execute(query)
 
    rows = cur.fetchall()
@@ -43,12 +44,12 @@ def listall():
 
 @app.route('/listgamecards')
 def listgamecards():
-   if 'user_email' not in session.keys():
-        return redirect('login')
+   #if 'user_email' not in session.keys():
+     #   return redirect('login')
    con = connect_db()
 
    cur = con.cursor()
-   query =  "SELECT * FROM PRODUCT,GAMECARD WHERE id = pid ORDER BY Name "
+   query =  "SELECT DISTINCT * FROM PRODUCT,GAMECARD WHERE id = pid ORDER BY Name "
    cur.execute(query)
 
    rows = cur.fetchall()
@@ -57,12 +58,12 @@ def listgamecards():
 
 @app.route('/listboardgames')
 def listboardgames():
-   if 'user_email' not in session.keys():
-        return redirect('login')
+   #if 'user_email' not in session.keys():
+     #   return redirect('login')
    con = connect_db()
 
    cur = con.cursor()
-   query =  "SELECT * FROM PRODUCT,BOARDGAME WHERE id = pid ORDER BY Name "
+   query =  "SELECT DISTINCT * FROM PRODUCT,BOARDGAME WHERE id = pid ORDER BY Name "
    cur.execute(query)
 
    rows = cur.fetchall()
@@ -143,17 +144,17 @@ cargo_companies = [
 shopping_list = {} # Alisveris listesi olusturulabilir.
 
 
-@app.route('/listall_deneme')
-def deneme():
-    return render_template("listall_deneme.html", table=item_table)
-
-
 @app.route('/cargo')
 def cargo():
     item = request.args.get('item')
-    for i in range (0, len(item_table)):
-        if item_table[i]['Name'] == item:
-            item_dict = item_table[i]
+    con = connect_db()
+    cur = con.cursor()
+
+    query =  "SELECT DISTINCT * FROM PRODUCT,GAMECARD WHERE id = pid AND PRODUCT.name='{}' ORDER BY Name ".format(item)
+
+    cur.execute(query)
+    item_dict = cur.fetchall()[0]
+    con.close()
 
     return render_template("cargo.html", item_dict=item_dict, cargo_companies=cargo_companies)
 
@@ -168,7 +169,7 @@ def payment():
         if company['Name'] == cargo:
             cargo_price = company['Price']
 
-    total_price = int(item_price) + cargo_price
+    total_price = float(item_price) + cargo_price
     return render_template("payment.html", item_name=item_name, total_price=total_price)
     # payment.html'ye kart mi kutu mu bilgisi goturulup 'yugioh kartiniz', 'monopoly kutu oyununuz' gibi ifadeler kullanilabilir.
 

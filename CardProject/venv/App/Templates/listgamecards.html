@@ -20,6 +20,7 @@
       <td>{{ row["rarety"] }}</td>
       <td>{{ row["bulkorone"] }}</td>
       <td>{{ row["numberofproduct"] }}</td>
+      <td> <a href={{ url_for('cargo', item=row["name"]) }}> Satin al</a></td>
     </tr>
     {% endfor %}
   </table>
