@@ -1,5 +1,17 @@
 {% extends 'base.html' %} {% block content %}
+<!--
 <div style="margin-top: 50px">
     {{ item_name }} karti icin odeyeceginiz fiyat: {{ total_price }}
 </div>
+-->
+<div>
+	<p style="color:red" style="padding:20px 0px">Shopping List</p>
+	{% for item in shopping_list %}
+	<ul>
+		<li>Alinan urun: {{ item }}</li>
+	</ul>
+	{% endfor %}
+</div>
+
+
 {% endblock %}
