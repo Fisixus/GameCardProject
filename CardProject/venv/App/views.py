@@ -100,19 +100,19 @@ def logout():
 
 cargo_companies = [
     {
-        'Name': 'Yurtici Kargo',
-        'Deliver_time': '2 Weeks',
-        'Price': 50
+        'name': 'Yurtici Kargo',
+        'deliver_time': '2 Weeks',
+        'price': 50
     },
     {
-        'Name': 'Osman Kargo',
-        'Deliver_time': '3 Days',
-        'Price': 150
+        'name': 'Osman Kargo',
+        'deliver_time': '3 Days',
+        'price': 150
     },
     {
-        'Name': 'UPS Kargo',
-        'Deliver_time': '1 Week',
-        'Price': 100
+        'name': 'UPS Kargo',
+        'deliver_time': '1 Week',
+        'price': 100
     }
 ]
 
@@ -122,31 +122,14 @@ cargo_companies = [
 
 @app.route('/cargo')
 def cargo():
-    item = request.args.get('item')
-    con = connect_db()
-    cur = con.cursor()
-
-    query =  "SELECT DISTINCT * FROM PRODUCT,GAMECARD WHERE id = pid AND PRODUCT.name='{}' ORDER BY Name ".format(item)
-
-    cur.execute(query)
-    item_dict = cur.fetchall()[0]
-    con.close()
-
-    return render_template("cargo.html", item_dict=item_dict, cargo_companies=cargo_companies, shopping_list=shopping_list)
+    return render_template("cargo.html", cargo_companies=cargo_companies)
 
 
 @app.route('/payment')
 def payment():
-    pprint(shopping_list)
-    #cargo = request.args.get('cargo')
-
-    for company in cargo_companies:
-        if company['Name'] == cargo:
-            cargo_price = company['Price']
-
-    #total_price = float(item_price) + cargo_price
-    return render_template("payment.html", shopping_list=shopping_list)
-    # payment.html'ye kart mi kutu mu bilgisi goturulup 'yugioh kartiniz', 'monopoly kutu oyununuz' gibi ifadeler kullanilabilir.
+    cargo_price = request.args.get('cargo_price')
+    cargo_name = request.args.get('cargo_name')
+    return render_template("payment.html", cargo_name=cargo_name, cargo_price=cargo_price, shopping_list=shopping_list)
 
 
 if __name__ == '__main__':

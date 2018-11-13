@@ -27,5 +27,7 @@
 
 
 <button onclick="">Empty the List</button>
+<p><a href={{ url_for('cargo') }}> Kargoya git</a></p>
+<p><a href={{ url_for('{}'.format(request.url_rule.endpoint), empty="empty") }}'>Empty the Basket</a></p>
 
 {% endblock %}

@@ -6,11 +6,15 @@
 -->
 <div>
 	<p style="color:red" style="padding:20px 0px">Shopping List</p>
-	{% for item in shopping_list %}
+	
 	<ul>
-		<li>Alinan urun: {{ item }}</li>
+		{% for item in shopping_list %}
+			<li>Alinan urun: {{ item }}, Fiyati: </li>
+		{% endfor %}
+		<li>Kargo adi: {{ cargo_name }}, Ucreti: {{ cargo_price }}</li>
 	</ul>
-	{% endfor %}
+	
+
 </div>
 
 
