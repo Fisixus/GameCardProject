@@ -1,20 +1,28 @@
 {% extends 'base.html' %} {% block content %}
-<div style="margin-top: 50px;">
-    <p>Kargo seçiniz:</p>
-    <table border="1">
-        <thead>
-            <td> Company Name </td>
-            <td> Est. Deliver Time </td>
-            <td> Price </td>
-        </thead>
-        {% for cargo in cargo_companies %}
-        <tbody>
-            <td> {{ cargo['name'] }}</td>
-            <td> {{ cargo['deliver_time'] }}</td>
-            <td> {{ cargo['price'] }}</td>
-            <td><a href={{ url_for('payment', cargo_price=cargo['price'], cargo_name=cargo['name']) }}> Select and go to the payment </a></td>
-        </tbody>
-        {% endfor %}
-    </table>
+<div class="row"  style="margin-top: 50px;">
+    <div class="col-6">
+        <p>Chosen Products:</p>
+        <ul>
+            {% for item in shopping_list %}
+                <li>{{ item }}, Price: </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="col-6" style="margin-top: 50px;">
+        <p>Select A Cargo Company:</p>
+        <table border="1">
+            <thead>
+                <td> Company Name </td>
+            </thead>
+            {% for cargo in cargo_companies %}
+            <tbody>
+                <td> {{ cargo['name'] }}</td>
+                <td><a href={{ url_for('payment', cargo_name=cargo['name']) }}> Select and go to the payment </a></td>
+            </tbody>
+            {% endfor %}
+        </table>
+    </div>
+
 </div>
 {% endblock %}

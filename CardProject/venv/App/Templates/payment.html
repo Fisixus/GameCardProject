@@ -1,17 +1,13 @@
 {% extends 'base.html' %} {% block content %}
-<!--
+
 <div style="margin-top: 50px">
-    {{ item_name }} karti icin odeyeceginiz fiyat: {{ total_price }}
-</div>
--->
-<div>
 	<p style="color:red" style="padding:20px 0px">Shopping List</p>
 	
 	<ul>
 		{% for item in shopping_list %}
-			<li>Alinan urun: {{ item }}, Fiyati: </li>
+			<li>Received Product: {{ item }}, Price: </li>
 		{% endfor %}
-		<li>Kargo adi: {{ cargo_name }}, Ucreti: {{ cargo_price }}</li>
+		<li>Cargo Name: {{ cargo_name }}</li>
 	</ul>
 	
 

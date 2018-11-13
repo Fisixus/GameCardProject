@@ -100,36 +100,27 @@ def logout():
 
 cargo_companies = [
     {
-        'name': 'Yurtici Kargo',
-        'deliver_time': '2 Weeks',
-        'price': 50
+        'name': 'FedEx',
     },
     {
-        'name': 'Osman Kargo',
-        'deliver_time': '3 Days',
-        'price': 150
+        'name': 'MNG',
     },
     {
-        'name': 'UPS Kargo',
-        'deliver_time': '1 Week',
-        'price': 100
+        'name': 'Aras',
     }
 ]
 
 
 
-
-
 @app.route('/cargo')
 def cargo():
-    return render_template("cargo.html", cargo_companies=cargo_companies)
+    return render_template("cargo.html", shopping_list=shopping_list, cargo_companies=cargo_companies)
 
 
 @app.route('/payment')
 def payment():
-    cargo_price = request.args.get('cargo_price')
     cargo_name = request.args.get('cargo_name')
-    return render_template("payment.html", cargo_name=cargo_name, cargo_price=cargo_price, shopping_list=shopping_list)
+    return render_template("payment.html", cargo_name=cargo_name, shopping_list=shopping_list)
 
 
 if __name__ == '__main__':
