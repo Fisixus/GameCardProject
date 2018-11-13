@@ -3,14 +3,22 @@
 <div style="margin-top: 50px">
 	<p style="color:red" style="padding:20px 0px">Shopping List</p>
 	
-	<ul>
-		{% for item in shopping_list %}
-			<li>Received Product: {{ item }}, Price: </li>
+	<table border="1">
+		<thead>
+			<td>Item</td>
+			<td>Price</td>
+		</thead>
+		{% for item in shopping_dict_list %}
+			<tr>
+				<td>{{ item['name'] }}</td>
+				<td>{{ item['price'] }}</td>
+			</tr>
 		{% endfor %}
-		<li>Cargo Name: {{ cargo_name }}</li>
-	</ul>
-	
-
+		<tr>
+			<td style="color:red">{{ cargo_name }}</td>
+			<td style="color:red">CARGO PRICE </td>
+		</tr>
+	</table>
 </div>
 
 

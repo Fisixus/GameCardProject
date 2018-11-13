@@ -25,10 +25,7 @@
   </table>
 </div>
 
-
-<button onclick="">Empty the List</button>
-
-<p><a href={{ url_for('cargo') }}> Go For Buying</a></p>
+<p><a href={{ url_for('cargo') }}> Go to Cargo selection</a></p>
 <p><a href={{ url_for('{}'.format(request.url_rule.endpoint), empty="empty") }}'>Empty the Basket</a></p>
 
 {% endblock %}

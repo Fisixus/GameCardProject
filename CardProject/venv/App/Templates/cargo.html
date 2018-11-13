@@ -16,10 +16,10 @@
                 <td> Company Name </td>
             </thead>
             {% for cargo in cargo_companies %}
-            <tbody>
+            <tr>
                 <td> {{ cargo['name'] }}</td>
                 <td><a href={{ url_for('payment', cargo_name=cargo['name']) }}> Select and go to the payment </a></td>
-            </tbody>
+            </tr>
             {% endfor %}
         </table>
     </div>
