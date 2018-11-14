@@ -45,7 +45,7 @@ def listall():
     rows = cur.fetchall()
     con.close()
 	
-    return render_template('listall.html', rows=rows, shopping_list=shopping_list)
+    return render_template('listall.html', rows=rows)
 
 
 @app.route('/listgamecards')
@@ -144,6 +144,24 @@ def drop_item():
     con.close()
     return redirect('cargo')
 
+@app.route('/add_item')
+def add_item():
+    check_login()
+    con = connect_db()
+    cur = con.cursor()
+    query = "SELECT Id FROM CUSTOMER WHERE Email = '%s'" % (session['user_email'])
+    cur.execute(query)
+    rows = cur.fetchall()
+    id = -1
+    for row in rows:
+        id = row[0]
+    query = "INSERT INTO SHOPPINGLISTITEM values (%s, %s, 1)" % (id, request.args.get('product_id'))
+    cur.execute(query)
+    con.commit()
+    cur.close()
+    con.close()
+    return redirect(request.args.get('redirect'))
+	
 @app.route('/payment')
 def payment():
     check_login()
