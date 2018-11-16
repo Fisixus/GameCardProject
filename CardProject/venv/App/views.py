@@ -168,9 +168,18 @@ def add_item():
     id = -1
     for row in rows:
         id = row[0]
-    query = "INSERT INTO SHOPPINGLISTITEM values (%s, %s, 1)" % (id, request.args.get('product_id'))
+    query = "SELECT Quantity FROM SHOPPINGLISTITEM WHERE Cid = '%s' AND Pid = '%s'" %(id, request.args.get('product_id'))
     cur.execute(query)
-    con.commit()
+    rows = cur.fetchall()
+    if(len(rows) > 0):
+        quantity = rows[0][0] + 1
+        query = "UPDATE SHOPPINGLISTITEM SET Quantity = %s WHERE Cid = '%s' AND Pid = '%s'" % (quantity, id, request.args.get('product_id'))
+        cur.execute(query)
+        con.commit()
+    else:
+        query = "INSERT INTO SHOPPINGLISTITEM values (%s, %s, 1)" % (id, request.args.get('product_id'))
+        cur.execute(query)
+        con.commit()
     cur.close()
     con.close()
     return redirect(request.args.get('redirect'))
@@ -184,13 +193,17 @@ def payment():
     query =  "SELECT P.Name AS name, P.Price As price, S.Quantity As quantity, P.Id As id FROM PRODUCT P, SHOPPINGLISTITEM S, CUSTOMER C WHERE S.Cid = C.Id AND S.Pid = P.Id AND C.Email = '%s'" % (session['user_email'])
     cur.execute(query)
     rows = cur.fetchall()
-    query =  "SELECT Cid,Pid FROM PRODUCT,SHOPPINGLISTITEM WHERE Id = Pid AND Cid IN (SELECT Id FROM CUSTOMER WHERE Email = '%s')" % (session['user_email'])
+    query =  "SELECT Cid,Pid, Quantity FROM PRODUCT,SHOPPINGLISTITEM WHERE Id = Pid AND quantity <= numberofproduct AND Cid IN (SELECT Id FROM CUSTOMER WHERE Email = '%s')" % (session['user_email'])
     cur.execute(query)
     products = cur.fetchall()
+    if(len(products) != len(rows)):
+        return render_template("error.html", error_message="Yeterli sayida ürün stokta yok!!")
     for p in products:
         print (p)
     for p in products:
         query = "INSERT INTO BUY values (%s, %s, '%s', '%s')" % (p[0], p[1], request.args.get('cargo_name'), datetime.now())
+        cur.execute(query)
+        query = "UPDATE PRODUCT SET numberofproduct = numberofproduct - %s WHERE Id = %s" % (p[2], p[1])
         cur.execute(query)
     query = "DELETE FROM SHOPPINGLISTITEM WHERE Cid IN (SELECT Id FROM CUSTOMER WHERE Email = '%s')" % (session['user_email']) 
     cur.execute(query)
@@ -198,7 +211,11 @@ def payment():
     con.commit()
     con.close()
     return render_template("payment.html", shopping_list=rows)
-    
+
+@app.route('/')
+def index():
+    return redirect('listall')
+
 if __name__ == '__main__':
    app.run(debug = True)
 
