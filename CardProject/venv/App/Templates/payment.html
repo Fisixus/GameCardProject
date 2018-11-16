@@ -1,23 +1,21 @@
 {% extends 'base.html' %} {% block content %}
 
 <div style="margin-top: 50px">
-	<p style="color:red" style="padding:20px 0px">Shopping List</p>
+	<p style="color:red" style="padding:20px 0px">You Buy:</p>
 	
-	<table border="1">
+	<table border="1">  
 		<thead>
-			<td>Item</td>
+			<td>Name</td>
 			<td>Price</td>
+			<td>Quantity</td>
 		</thead>
-		{% for item in shopping_dict_list %}
-			<tr>
-				<td>{{ item['name'] }}</td>
-				<td>{{ item['price'] }}</td>
-			</tr>
-		{% endfor %}
+		{% for row in shopping_list %}
 		<tr>
-			<td style="color:red">{{ cargo_name }}</td>
-			<td style="color:red">CARGO PRICE </td>
+			<td>{{ row["name"] }}</td>
+			<td>{{ row["price"] }}</td>
+			<td>{{ row["quantity"] }}</td>
 		</tr>
+		{% endfor %}
 	</table>
 </div>
 

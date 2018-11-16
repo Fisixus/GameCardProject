@@ -35,7 +35,6 @@ def teardown_request(exception):
 #Ana sayfa
 @app.route('/listall')
 def listall():
-    global shopping_list
     check_login()
 	
     con = connect_db()
@@ -59,7 +58,7 @@ def listgamecards():
     rows = cur.fetchall()
     con.close()
 	
-    return render_template('listgamecards.html', rows=rows, shopping_list=shopping_list)
+    return render_template('listgamecards.html', rows=rows)
 
 
 @app.route('/listboardgames')
@@ -73,11 +72,7 @@ def listboardgames():
     rows = cur.fetchall()
     con.close()
 
-    dummy = request.args.get('empty')
-    if(dummy is not None):
-        print("sasasasa\nsasasasasas\n------\n")
-        shopping_list = []
-    return render_template('listboardgames.html', rows=rows, shopping_list=shopping_list)
+    return render_template('listboardgames.html', rows=rows)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -107,7 +102,17 @@ def logout():
     return redirect(url_for('login'))
 
 
-cargo_companies = [
+
+@app.route('/cargo')
+def cargo():
+    check_login()
+    con = connect_db()
+    cur = con.cursor()
+    query =  "SELECT P.Name AS name, P.Price As price, S.Quantity As quantity, P.Id As id FROM PRODUCT P, SHOPPINGLISTITEM S, CUSTOMER C WHERE S.Cid = C.Id AND S.Pid = P.Id AND C.Email = '%s'" % (session['user_email'])
+    cur.execute(query)
+    rows = cur.fetchall()
+ 
+    cargo_companies = [
     {
         'name': 'FedEx',
     },
@@ -119,25 +124,29 @@ cargo_companies = [
     }
 ]
 
-
-
-@app.route('/cargo')
-def cargo():
-    check_login()
-    con = connect_db()
-    cur = con.cursor()
-    query =  "SELECT P.Name AS name, P.Price As price, S.Quantity As quantity, P.Id As id FROM PRODUCT P, SHOPPINGLISTITEM S, CUSTOMER C WHERE S.Cid = C.Id AND S.Pid = P.Id AND C.Email = '%s'" % (session['user_email']);
-    cur.execute(query)
-    rows = cur.fetchall()
+    if not rows:
+        cargo_companies[:] = []
+    else:
+        cargo_companies = [
+        {
+        'name': 'FedEx',
+        },
+        {
+        'name': 'MNG',
+        },
+        {
+        'name': 'Aras',
+        }
+    ]
     con.close()
     return render_template("cargo.html", shopping_list=rows, cargo_companies=cargo_companies)
 
 @app.route('/drop_item')
 def drop_item():
-    check_login();
+    check_login()
     con = connect_db()
     cur = con.cursor()
-    query = "DELETE FROM SHOPPINGLISTITEM WHERE Cid IN (SELECT Id FROM CUSTOMER WHERE Email = '%s') AND Pid = '%s';" % (session['user_email'], request.args.get('product_id'));
+    query = "DELETE FROM SHOPPINGLISTITEM WHERE Cid IN (SELECT Id FROM CUSTOMER WHERE Email = '%s') AND Pid = '%s'" % (session['user_email'], request.args.get('product_id'))
     cur.execute(query)
     con.commit()
     cur.close()
@@ -167,22 +176,15 @@ def payment():
     check_login()
     con = connect_db()
     cur = con.cursor()
-    '''
-    shopping_dict_list = []
-    for item in shopping_list:
-        print("item: {}\n".format(item))
-        query =  'SELECT DISTINCT NAME, PRICE FROM PRODUCT,BOARDGAME WHERE id = pid AND name="{}" ORDER BY Name'.format(item)
-        cur.execute(query)
-        _dict = {}
-        _dict['name'] = cur.fetchall()[0]
-        _dict['price'] = cur.fetchall()[1]
-        shopping_dict_list.append(_dict)
+    query =  "SELECT P.Name AS name, P.Price As price, S.Quantity As quantity, P.Id As id FROM PRODUCT P, SHOPPINGLISTITEM S, CUSTOMER C WHERE S.Cid = C.Id AND S.Pid = P.Id AND C.Email = '%s'" % (session['user_email'])
+    cur.execute(query)
+    rows = cur.fetchall()
+    query = "DELETE FROM SHOPPINGLISTITEM WHERE Cid IN (SELECT Id FROM CUSTOMER WHERE Email = '%s')" % (session['user_email']) 
+    cur.execute(query)
+    cur.close()
+    con.commit()
     con.close()
-    '''
-
-    cargo_name = request.args.get('cargo_name')
-    return render_template("payment.html", cargo_name=cargo_name, shopping_dict_list=shopping_dict_list)
-
+    return render_template("payment.html", shopping_list=rows)
 if __name__ == '__main__':
    app.run(debug = True)
 

@@ -20,11 +20,10 @@
       <td>{{ row["rarety"] }}</td>
       <td>{{ row["bulkorone"] }}</td>
       <td>{{ row["numberofproduct"] }}</td>
-      <td><button onclick="{{ shopping_list.append(row['name']) }}"> Add to Basket</td>
+      <td><a href={{ url_for('add_item', product_id=row["id"], redirect="listgamecards") }}>  Add to Basket</a></td>
     </tr>
     {% endfor %}
   </table>
 </div>
-<a href={{ url_for('cargo') }}> Go For Buying</a>
-<p><a href={{ url_for('{}'.format(request.url_rule.endpoint), empty="empty") }}'>Empty the Basket</a></p>
+<p><a href={{ url_for('cargo') }}> Go to Cargo Selection</a></p>
 {% endblock %}
