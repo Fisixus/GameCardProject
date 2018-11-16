@@ -29,8 +29,8 @@ INSERT INTO GAMECARD(Pid,Type,Rarety,BulkOrOne) VALUES (8,'Yugioh','Rare','O');
 INSERT INTO BOARDGAME(Pid,PersonNum,AgeRestrict) VALUES (3,'6','12+');
 INSERT INTO BOARDGAME(Pid,PersonNum,AgeRestrict) VALUES (6,'4','14+');
 
-INSERT INTO BUY(Cid,Pid,CargoName,CardType) VALUES (1,4,'Fedex','V');
-INSERT INTO BUY(Cid,Pid,CargoName,CardType) VALUES (9,5,'Fedex','M'); 
+INSERT INTO BUY(Cid,Pid,CargoName, BuyingTime) VALUES (1,4,'Fedex', '2018-10-09 08:23:19.120');
+INSERT INTO BUY(Cid,Pid,CargoName, BuyingTime) VALUES (9,5,'Fedex', '2018-10-09 08:23:19.120'); 
 
 INSERT INTO REVIEW(Cid,Pid,Comment,Time) VALUES (1,4,'Awesome card!!','2018-10-09 08:23:19.120');
 INSERT INTO REVIEW(Cid,Pid,Comment,Time) VALUES (10,4,'Vaov, it is crazy.','2018-10-08 08:23:19.120');

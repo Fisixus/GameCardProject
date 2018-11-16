@@ -5,6 +5,7 @@ import os
 import psycopg2.errorcodes
 import psycopg2.extras
 from pprint import pprint
+from datetime import datetime
 
 psycopg2.errorcodes.UNIQUE_VIOLATION
 
@@ -18,10 +19,6 @@ def connect_db():
     con.cursor_factory = psycopg2.extras.NamedTupleCursor
     return con
 
-def check_login():
-    if 'user_email' not in session.keys():
-        return redirect('login')
-		
 @app.before_request
 def before_request():
     g.db = connect_db()
@@ -35,7 +32,8 @@ def teardown_request(exception):
 #Ana sayfa
 @app.route('/listall')
 def listall():
-    check_login()
+    if 'user_email' not in session.keys():
+        return redirect('login')
 	
     con = connect_db()
     cur = con.cursor()
@@ -49,7 +47,8 @@ def listall():
 
 @app.route('/listgamecards')
 def listgamecards():
-    check_login()
+    if 'user_email' not in session.keys():
+        return redirect('login')
 	
     con = connect_db()
     cur = con.cursor()
@@ -63,7 +62,8 @@ def listgamecards():
 
 @app.route('/listboardgames')
 def listboardgames():
-    check_login()
+    if 'user_email' not in session.keys():
+        return redirect('login')
 
     con = connect_db()
     cur = con.cursor()
@@ -97,7 +97,8 @@ def login():
 
 @app.route('/logout')
 def logout():
-    check_login()
+    if 'user_email' not in session.keys():
+        return redirect('login')
     session.pop('user_email', None)
     return redirect(url_for('login'))
 
@@ -105,7 +106,8 @@ def logout():
 
 @app.route('/cargo')
 def cargo():
-    check_login()
+    if 'user_email' not in session.keys():
+        return redirect('login')
     con = connect_db()
     cur = con.cursor()
     query =  "SELECT P.Name AS name, P.Price As price, S.Quantity As quantity, P.Id As id FROM PRODUCT P, SHOPPINGLISTITEM S, CUSTOMER C WHERE S.Cid = C.Id AND S.Pid = P.Id AND C.Email = '%s'" % (session['user_email'])
@@ -143,7 +145,8 @@ def cargo():
 
 @app.route('/drop_item')
 def drop_item():
-    check_login()
+    if 'user_email' not in session.keys():
+        return redirect('login')
     con = connect_db()
     cur = con.cursor()
     query = "DELETE FROM SHOPPINGLISTITEM WHERE Cid IN (SELECT Id FROM CUSTOMER WHERE Email = '%s') AND Pid = '%s'" % (session['user_email'], request.args.get('product_id'))
@@ -155,7 +158,8 @@ def drop_item():
 
 @app.route('/add_item')
 def add_item():
-    check_login()
+    if 'user_email' not in session.keys():
+        return redirect('login')
     con = connect_db()
     cur = con.cursor()
     query = "SELECT Id FROM CUSTOMER WHERE Email = '%s'" % (session['user_email'])
@@ -173,18 +177,28 @@ def add_item():
 	
 @app.route('/payment')
 def payment():
-    check_login()
+    if 'user_email' not in session.keys():
+        return redirect('login')
     con = connect_db()
     cur = con.cursor()
     query =  "SELECT P.Name AS name, P.Price As price, S.Quantity As quantity, P.Id As id FROM PRODUCT P, SHOPPINGLISTITEM S, CUSTOMER C WHERE S.Cid = C.Id AND S.Pid = P.Id AND C.Email = '%s'" % (session['user_email'])
     cur.execute(query)
     rows = cur.fetchall()
+    query =  "SELECT Cid,Pid FROM PRODUCT,SHOPPINGLISTITEM WHERE Id = Pid AND Cid IN (SELECT Id FROM CUSTOMER WHERE Email = '%s')" % (session['user_email'])
+    cur.execute(query)
+    products = cur.fetchall()
+    for p in products:
+        print (p)
+    for p in products:
+        query = "INSERT INTO BUY values (%s, %s, '%s', '%s')" % (p[0], p[1], request.args.get('cargo_name'), datetime.now())
+        cur.execute(query)
     query = "DELETE FROM SHOPPINGLISTITEM WHERE Cid IN (SELECT Id FROM CUSTOMER WHERE Email = '%s')" % (session['user_email']) 
     cur.execute(query)
     cur.close()
     con.commit()
     con.close()
     return render_template("payment.html", shopping_list=rows)
+    
 if __name__ == '__main__':
    app.run(debug = True)
 
