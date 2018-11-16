@@ -197,9 +197,12 @@ def payment():
     cur.execute(query)
     products = cur.fetchall()
     if(len(products) != len(rows)):
-        return render_template("error.html", error_message="Yeterli sayida ürün stokta yok!!")
-    for p in products:
-        print (p)
+        query = "DELETE FROM SHOPPINGLISTITEM WHERE Cid IN (SELECT Id FROM CUSTOMER WHERE Email = '%s')" % (session['user_email']) 
+        cur.execute(query)
+        cur.close()
+        con.commit()
+        con.close()
+        return render_template("error.html", error_message="Not enough products in stock!!")
     for p in products:
         query = "INSERT INTO BUY values (%s, %s, '%s', '%s')" % (p[0], p[1], request.args.get('cargo_name'), datetime.now())
         cur.execute(query)
