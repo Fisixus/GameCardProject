@@ -204,8 +204,9 @@ def payment():
         con.close()
         return render_template("error.html", error_message="Not enough products in stock!!")
     for p in products:
-        query = "INSERT INTO BUY values (%s, %s, '%s', '%s')" % (p[0], p[1], request.args.get('cargo_name'), datetime.now())
-        cur.execute(query)
+        for i in range(p[2]):
+            query = "INSERT INTO BUY values (%s, %s, '%s', '%s')" % (p[0], p[1], request.args.get('cargo_name'), datetime.now())
+            cur.execute(query)
         query = "UPDATE PRODUCT SET numberofproduct = numberofproduct - %s WHERE Id = %s" % (p[2], p[1])
         cur.execute(query)
     query = "DELETE FROM SHOPPINGLISTITEM WHERE Cid IN (SELECT Id FROM CUSTOMER WHERE Email = '%s')" % (session['user_email']) 
