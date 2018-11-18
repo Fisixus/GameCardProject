@@ -125,7 +125,7 @@ def productdetails():
         comments = cur.fetchall()
         cur.close()
         con.close()
-        return render_template("productdetails.html", rows=rows, comments=comments)
+        return redirect(url_for('productdetails', product_name=request.args.get('product_name')))
 
     else:        
         con = connect_db()
@@ -134,7 +134,6 @@ def productdetails():
         cur.execute(query)
         con.commit()
         rows = cur.fetchall()
-        print(rows)
         query = "SELECT DISTINCT C.Email AS email, R.Comment AS comment, R.Time AS time FROM REVIEW R,PRODUCT P,CUSTOMER C WHERE Pid = '%s' AND Cid=C.Id ORDER BY Time DESC" % (rows[0][0])
         cur.execute(query)
         comments = cur.fetchall()
