@@ -102,7 +102,25 @@ def logout():
     session.pop('user_email', None)
     return redirect(url_for('login'))
 
-
+@app.route('/productdetails')
+def productdetails():
+    if 'user_email' not in session.keys():
+        return redirect('login')
+    con = connect_db()
+    cur = con.cursor()
+    query = "SELECT * FROM PRODUCT WHERE Name = '%s'" % (request.args.get('product_name'))
+    cur.execute(query)
+    con.commit()
+    rows = cur.fetchall()
+    query = "SELECT DISTINCT C.Email AS email, R.Comment AS comment, R.Time AS time FROM REVIEW R,PRODUCT P,CUSTOMER C WHERE Pid = '%s' AND Cid=C.Id ORDER BY Time DESC" % (rows[0][0])
+    cur.execute(query)
+    comments = cur.fetchall()
+    print (comments)
+    con.commit()
+    cur.close()
+    con.close() 
+    return render_template("productdetails.html", rows=rows, comments=comments)
+    
 
 @app.route('/cargo')
 def cargo():

@@ -12,13 +12,12 @@
 
     {% for row in rows %}
     <tr>
-      <td>{{ row["name"] }}</td>
+      <td><a href={{ url_for('productdetails', product_name=row["name"]) }} style="color:black">{{ row["name"] }}</a></td>
       <td>{{ row["price"] }}</td>
       <td>{{ row["sourceofsupply"] }}</td>
       <td>{{ row["personnum"] }}</td>
       <td>{{ row["agerestrict"] }}</td>
       <td>{{ row["numberofproduct"] }}</td>
-      <!--<td> <a href={{ url_for('cargo', item=row["name"]) }}> Satin al</a></td>-->
       <td><a href={{ url_for('add_item', product_id=row["id"], redirect="listboardgames") }}>  Add to Basket</a></td>
     </tr>
     {% endfor %}
