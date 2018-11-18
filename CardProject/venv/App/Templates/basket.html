@@ -1,0 +1,14 @@
+{% block content %}
+<div class="row">
+	<div class="col-sm"> Name</div>
+	<div class="col-sm"> Price</div>
+	<div class="col-sm"> Quantity</div>
+</div>
+{% for row in shopping_list %}
+<div class="row">
+	<div class="col-sm"> {{ row["name"] }}</div>
+	<div class="col-sm"> {{ row["price"] }}</div>
+	<div class="col-sm"> {{ row["quantity"] }}</div>
+</div>
+{% endfor %}
+{% endblock %}

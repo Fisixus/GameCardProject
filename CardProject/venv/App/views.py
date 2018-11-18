@@ -29,6 +29,14 @@ def teardown_request(exception):
     if hasattr(g, 'db'):
 	    g.db.close()
 
+def render(container):
+    con = connect_db()
+    cur = con.cursor()
+    query =  "SELECT P.Name AS name, P.Price As price, S.Quantity As quantity, P.Id As id FROM PRODUCT P, SHOPPINGLISTITEM S, CUSTOMER C WHERE S.Cid = C.Id AND S.Pid = P.Id AND C.Email = '%s'" % (session['user_email'])
+    cur.execute(query)
+    rows = cur.fetchall()
+    return render_template('base.html', container=container, basket=render_template('basket.html', shopping_list=rows))
+
 #Ana sayfa
 @app.route('/listall')
 def listall():
@@ -41,8 +49,8 @@ def listall():
     cur.execute(query)
     rows = cur.fetchall()
     con.close()
-	
-    return render_template('listall.html', rows=rows)
+    
+    return render(render_template('listall.html', rows=rows))
 
 
 @app.route('/listgamecards')
@@ -92,8 +100,7 @@ def login():
             return render_template('login.html')
     else:
         return render_template('login.html')
-
-
+		
 @app.route('/logout')
 def logout():
     if 'user_email' not in session.keys():
