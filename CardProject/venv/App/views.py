@@ -35,6 +35,8 @@ def render(container):
     query =  "SELECT P.Name AS name, P.Price As price, S.Quantity As quantity, P.Id As id FROM PRODUCT P, SHOPPINGLISTITEM S, CUSTOMER C WHERE S.Cid = C.Id AND S.Pid = P.Id AND C.Email = '%s'" % (session['user_email'])
     cur.execute(query)
     rows = cur.fetchall()
+    cur.close()
+    con.close()
     return render_template('base.html', container=container, basket=render_template('basket.html', shopping_list=rows))
 
 #Ana sayfa
@@ -65,7 +67,7 @@ def listgamecards():
     rows = cur.fetchall()
     con.close()
 	
-    return render_template('listgamecards.html', rows=rows)
+    return render(render_template('listgamecards.html', rows=rows))
 
 
 @app.route('/listboardgames')
@@ -80,7 +82,7 @@ def listboardgames():
     rows = cur.fetchall()
     con.close()
 
-    return render_template('listboardgames.html', rows=rows)
+    return render(render_template('listboardgames.html', rows=rows))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -147,7 +149,7 @@ def productdetails():
         con.commit()
         cur.close()
         con.close() 
-        return render_template("productdetails.html", rows=rows, comments=comments)
+        return render(render_template("productdetails.html", rows=rows, comments=comments))
         
 
 @app.route('/cargo')
@@ -187,7 +189,7 @@ def cargo():
         }
     ]
     con.close()
-    return render_template("cargo.html", shopping_list=rows, cargo_companies=cargo_companies)
+    return render(render_template("cargo.html", shopping_list=rows, cargo_companies=cargo_companies))
 
 @app.route('/drop_item')
 def drop_item():
@@ -260,7 +262,7 @@ def payment():
     cur.close()
     con.commit()
     con.close()
-    return render_template("payment.html", shopping_list=rows)
+    return render(render_template("payment.html", shopping_list=rows))
 
 @app.route('/')
 def index():
