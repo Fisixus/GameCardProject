@@ -120,10 +120,13 @@ def productdetails():
         query = "INSERT INTO REVIEW values (%s, %s, '%s', '%s')" % (rows2[0][0], rows[0][0], request.form.get('user_comment') ,datetime.now())
         cur.execute(query)
         con.commit()
+        query = "SELECT DISTINCT C.Email AS email, R.Comment AS comment, R.Time AS time FROM REVIEW R,PRODUCT P,CUSTOMER C WHERE Pid = '%s' AND Cid=C.Id ORDER BY Time DESC" % (rows[0][0])
+        cur.execute(query)
+        comments = cur.fetchall()
         cur.close()
         con.close()
-#       return redirect('productdetails')
-        return redirect('listall')
+        return render_template("productdetails.html", rows=rows, comments=comments)
+
     else:        
         con = connect_db()
         cur = con.cursor()
