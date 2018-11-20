@@ -46,57 +46,12 @@ def render_view2(content):
     navbar=render_template('navbar.html')
     return render_template('base_view2.html', navbar=navbar, content=content)
 
-#Ana sayfa
-@app.route('/listall')
-def listall():
-    if 'user_email' not in session.keys():
-        return redirect('login')
-	
-    con = connect_db()
-    cur = con.cursor()
-    query =  "SELECT DISTINCT * FROM PRODUCT ORDER BY Name "
-    cur.execute(query)
-    rows = cur.fetchall()
-    con.close()
-    
-    return render_view1(render_template('listall.html', rows=rows))
-
-
-@app.route('/listgamecards')
-def listgamecards():
-    if 'user_email' not in session.keys():
-        return redirect('login')
-	
-    con = connect_db()
-    cur = con.cursor()
-    query =  "SELECT DISTINCT * FROM PRODUCT,GAMECARD WHERE id = pid ORDER BY Name "
-    cur.execute(query)
-    rows = cur.fetchall()
-    con.close()
-	
-    return render_view1(render_template('listgamecards.html', rows=rows))
-
-
-@app.route('/listboardgames')
-def listboardgames():
-    if 'user_email' not in session.keys():
-        return redirect('login')
-
-    con = connect_db()
-    cur = con.cursor()
-    query =  "SELECT DISTINCT * FROM PRODUCT,BOARDGAME WHERE id = pid ORDER BY Name "
-    cur.execute(query)
-    rows = cur.fetchall()
-    con.close()
-
-    return render_view1(render_template('listboardgames.html', rows=rows))
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == "POST":
         con = connect_db()
         cur = con.cursor()
-        query = "SELECT Email,Password,Id FROM CUSTOMER \
+        query = "SELECT Email, Password, Id FROM CUSTOMER \
                  WHERE Email = '%s' AND Password = '%s'" % (request.form.get('user_email'), request.form.get('user_password'))
         cur.execute(query)
         rows = cur.fetchall()
@@ -116,6 +71,89 @@ def logout():
         return redirect('login')
     session.pop('user_email', None)
     return redirect(url_for('login'))
+
+@app.route('/listall')
+def listall():
+    if 'user_email' not in session.keys():
+        return redirect('login')
+	
+    con = connect_db()
+    cur = con.cursor()
+    query =  "SELECT DISTINCT * FROM PRODUCT ORDER BY Name "
+    cur.execute(query)
+    rows = cur.fetchall()
+    query = "SELECT Role FROM CUSTOMER WHERE Email='%s'" % (session['user_email'])
+    cur.execute(query)
+    cus_role = cur.fetchall()
+    cur.close()
+    con.close()
+    
+    return render_view1(render_template('listall.html', rows=rows, cus_role=cus_role))
+
+
+@app.route('/listgamecards')
+def listgamecards():
+    if 'user_email' not in session.keys():
+        return redirect('login')
+    con = connect_db()
+    cur = con.cursor()
+    query =  "SELECT DISTINCT * FROM PRODUCT,GAMECARD WHERE id = pid ORDER BY Name "
+    cur.execute(query)
+    rows = cur.fetchall()
+    query = "SELECT Role FROM CUSTOMER WHERE Email='%s'" % (session['user_email'])
+    cur.execute(query)
+    cus_role = cur.fetchall()
+    cur.close()
+    con.close()
+    return render_view1(render_template('listgamecards.html', rows=rows, cus_role=cus_role))
+
+
+@app.route('/listboardgames')
+def listboardgames():
+    if 'user_email' not in session.keys():
+        return redirect('login')
+
+    con = connect_db()
+    cur = con.cursor()
+    query =  "SELECT DISTINCT * FROM PRODUCT,BOARDGAME WHERE id = pid ORDER BY Name " 
+    cur.execute(query)
+    rows = cur.fetchall()
+    query = "SELECT Role FROM CUSTOMER WHERE Email='%s'" % (session['user_email'])
+    cur.execute(query)
+    cus_role = cur.fetchall()
+    cur.close()
+    con.close()
+
+    return render_view1(render_template('listboardgames.html', rows=rows, cus_role=cus_role))
+
+@app.route('/addproduct', methods=['GET', 'POST'])
+def addproduct():
+    if 'user_email' not in session.keys():
+        return redirect('login')
+    if request.method == "POST":
+        con = connect_db()
+        cur = con.cursor()
+        query = "SELECT * FROM PRODUCT ORDER BY Id DESC" 
+        cur.execute(query)
+        con.commit()
+        rows = cur.fetchall()
+        query = "INSERT INTO PRODUCT values (%s, '%s', '%s', '%s', '%s', %s)" % (rows[0][0]+1, request.form.get('product_name'), request.form.get('product_price') ,request.form.get('product_summary'), request.form.get('product_sourceofsupply'), request.form.get('product_numberof'))
+        cur.execute(query)
+        con.commit()
+        if request.form.get('gamecardorboardgame') == "Gamecard":
+            query = "INSERT INTO GAMECARD values (%s, '%s', '%s', '%s')" % (rows[0][0]+1, request.form.get('gamecard_type'), request.form.get('gamecard_rarety') , request.form.get('gamecard_bulkorone'))
+            cur.execute(query)
+            con.commit()
+        else:
+            query = "INSERT INTO BOARDGAME values (%s, '%s', '%s')" % (rows[0][0]+1, request.form.get('boardgame_personnum'), request.form.get('boardgame_agerestrict'))
+            cur.execute(query)
+            con.commit()
+     
+        cur.close()
+        con.close()
+    else:
+        return render_view2(render_template("addproduct.html"))
+    
 
 @app.route('/productdetails', methods=['GET', 'POST'])
 def productdetails():

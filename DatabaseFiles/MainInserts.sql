@@ -1,14 +1,14 @@
-INSERT INTO CUSTOMER VALUES(1,'jdoe@gmail.com','Empire Street','John','Doe','abcdef');
-INSERT INTO CUSTOMER VALUES(2,'kreeves@gmail.com','Washington Street','Keenu','Reeves','abcdef1');
-INSERT INTO CUSTOMER VALUES(3,'hledger@hotmail.com','Batman Street','Heath','Ledger','abcdef12');
-INSERT INTO CUSTOMER VALUES(4,'akeys@yahoo.com','Panama Street','Alicia','Keys','abcdef123');
-INSERT INTO CUSTOMER VALUES(5,'neo07@yahoo.com','Matrix Street','Neo','Anderson','12345');
-INSERT INTO CUSTOMER VALUES(6,'ksoze01@yahoo.com','Unusual Street','Kayser','Soze','123456');
-INSERT INTO CUSTOMER VALUES(7,'hkojima@gmail.com','Japanese Street','Hideo','Kojima','1234567');
-INSERT INTO CUSTOMER VALUES(8,'mhaneke@hotmail.com','Berlin Street','Michael','Haneke','12345678');
-INSERT INTO CUSTOMER VALUES(9,'ywenli@yahoo.com','Odin Street','Yang','Wenli','123456789');
-INSERT INTO CUSTOMER VALUES(10,'apacino@yahoo.com','Sicilia Street','Al','Pacino','abcde');
-INSERT INTO CUSTOMER VALUES(11,'snicks@gmail.com','Fleetwood Street','Stevie','Nicks','01234');
+INSERT INTO CUSTOMER VALUES(1,'jdoe@gmail.com','Empire Street','John','Doe','abcdef','A');
+INSERT INTO CUSTOMER VALUES(2,'kreeves@gmail.com','Washington Street','Keenu','Reeves','abcdef1','C');
+INSERT INTO CUSTOMER VALUES(3,'hledger@hotmail.com','Batman Street','Heath','Ledger','abcdef12','C');
+INSERT INTO CUSTOMER VALUES(4,'akeys@yahoo.com','Panama Street','Alicia','Keys','abcdef123','C');
+INSERT INTO CUSTOMER VALUES(5,'neo07@yahoo.com','Matrix Street','Neo','Anderson','12345','C');
+INSERT INTO CUSTOMER VALUES(6,'ksoze01@yahoo.com','Unusual Street','Kayser','Soze','123456','C');
+INSERT INTO CUSTOMER VALUES(7,'hkojima@gmail.com','Japanese Street','Hideo','Kojima','1234567','C');
+INSERT INTO CUSTOMER VALUES(8,'mhaneke@hotmail.com','Berlin Street','Michael','Haneke','12345678','C');
+INSERT INTO CUSTOMER VALUES(9,'ywenli@yahoo.com','Odin Street','Yang','Wenli','123456789','C');
+INSERT INTO CUSTOMER VALUES(10,'apacino@yahoo.com','Sicilia Street','Al','Pacino','abcde','C');
+INSERT INTO CUSTOMER VALUES(11,'snicks@gmail.com','Fleetwood Street','Stevie','Nicks','01234','C');
 
 INSERT INTO PRODUCT VALUES(1,'Blue Eyes White Dragon','10.15','This legendary dragon is a powerful engine of destruction. Virtually invincible, very few have faced this awesome creature and lived to tell the tale.','ToysRus',5);
 INSERT INTO PRODUCT VALUES(2,'Dark Magician','50.25','The ultimate wizard in terms of attack and defense.','DuelMonsters',2);
