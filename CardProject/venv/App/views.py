@@ -27,9 +27,9 @@ def before_request():
 @app.teardown_request
 def teardown_request(exception):
     if hasattr(g, 'db'):
-	    g.db.close()
+        g.db.close()
 
-def render(container):
+def render_view1(content):
     con = connect_db()
     cur = con.cursor()
     query =  "SELECT P.Name AS name, P.Price As price, S.Quantity As quantity, P.Id As id FROM PRODUCT P, SHOPPINGLISTITEM S, CUSTOMER C WHERE S.Cid = C.Id AND S.Pid = P.Id AND C.Email = '%s'" % (session['user_email'])
@@ -37,7 +37,14 @@ def render(container):
     rows = cur.fetchall()
     cur.close()
     con.close()
-    return render_template('base.html', container=container, basket=render_template('basket.html', shopping_list=rows))
+    
+    navbar=render_template('navbar.html')
+    basket=render_template('basket.html', shopping_list=rows)
+    return render_template('base_view1.html', content=content, basket=basket, navbar=navbar)
+
+def render_view2(content):
+    navbar=render_template('navbar.html')
+    return render_template('base_view2.html', navbar=navbar, content=content)
 
 #Ana sayfa
 @app.route('/listall')
@@ -52,7 +59,7 @@ def listall():
     rows = cur.fetchall()
     con.close()
     
-    return render(render_template('listall.html', rows=rows))
+    return render_view1(render_template('listall.html', rows=rows))
 
 
 @app.route('/listgamecards')
@@ -67,7 +74,7 @@ def listgamecards():
     rows = cur.fetchall()
     con.close()
 	
-    return render(render_template('listgamecards.html', rows=rows))
+    return render_view1(render_template('listgamecards.html', rows=rows))
 
 
 @app.route('/listboardgames')
@@ -82,7 +89,7 @@ def listboardgames():
     rows = cur.fetchall()
     con.close()
 
-    return render(render_template('listboardgames.html', rows=rows))
+    return render_view1(render_template('listboardgames.html', rows=rows))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -149,7 +156,7 @@ def productdetails():
         con.commit()
         cur.close()
         con.close() 
-        return render(render_template("productdetails.html", rows=rows, comments=comments))
+        return render_view2(render_template("productdetails.html", rows=rows, comments=comments))
         
 
 @app.route('/cargo')
@@ -189,7 +196,7 @@ def cargo():
         }
     ]
     con.close()
-    return render(render_template("cargo.html", shopping_list=rows, cargo_companies=cargo_companies))
+    return render_view1(render_template("cargo.html", shopping_list=rows, cargo_companies=cargo_companies))
 
 @app.route('/drop_item')
 def drop_item():
@@ -262,7 +269,7 @@ def payment():
     cur.close()
     con.commit()
     con.close()
-    return render(render_template("payment.html", shopping_list=rows))
+    return render_view2(render_template("payment.html", shopping_list=rows))
 
 @app.route('/')
 def index():

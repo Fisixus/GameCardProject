@@ -1,0 +1,15 @@
+{% extends 'header.html' %} {% block body %}
+	{{ navbar|safe }}
+	<div class="clearfix"></div>
+	<div class="row">
+		<div class="col-3" style="border-right: 1px solid lightgray;">
+			{{ basket|safe}}
+		</div>
+		<div class="col-6">
+			{{ content|safe }}
+		</div>
+		<div class="col-2" style="border-left: 1px solid lightgray;">
+			{{ toplist|safe }}
+		</div>
+	</div>
+{% endblock %}

@@ -1,28 +1,20 @@
-
-<div class="container" style="padding-right: 0px; padding-left: 0px; margin-right: auto; margin-left: auto; max-width: 3000px; position: fixed; z-index:1000;">
-    <nav class="navbar navbar-expand-lg justify-content-between">
-        <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
-            <ul class="navbar-nav" id="headerNav">
-                <li class="nav-item">
-                    <a class="nav-link"  href="listgamecards">GameCards</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link"  href="listboardgames">BoardGames</a>
-                </li>
-                
-                <li class="nav-item">
-                    <a class="nav-link"  href="listall">All</a>
-                </li>
-            </ul>
-            <ul style="list-style: none; color:white; margin-bottom: 0px;">
-                <li class="nav-item" id="x" style="height: 5px; ">
-                   <div style="color: rgb(28, 96, 141); font-size: 12px;    "> {{session.user_email}} </div>
-                </li>
-                <li class="nav-item" id="x" style="text-align: center;">
-                    <a class="nav-link" id="a2" href="logout" name="nav-link1"><i class="fa fa-sign-out-alt" style="color:rgb(199, 198, 198);"></i> Exit</a>
-                    
-                </li>
-            </ul>
-        </div>
-    </nav>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+	<link href="https://getbootstrap.com/docs/4.1/dist/css/bootstrap.min.css" rel="stylesheet">
+	
+	
+</head>
+<body>
+	{% block body %}
+    
+    {% endblock %}
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script src="https://getbootstrap.com/docs/4.1/assets/js/vendor/popper.min.js"></script>
+	<script src="https://getbootstrap.com/docs/4.1/dist/js/bootstrap.min.js"></script>
+	
+</body>
+</html>
