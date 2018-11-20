@@ -1,0 +1,31 @@
+<script>
+	function GetRefresh(theUrl) {
+		var xmlHttp = new XMLHttpRequest();
+		xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+		xmlHttp.send( null );
+		location.reload(true);
+	}
+</script>
+<table class="table table-hower">
+	<thead>
+		<tr>
+			<th> Name</th>
+			<th> Price</th>
+			<th> Quantity</th>
+			<th> </th>
+		</th>
+	</thead>
+	<tbody>
+	{% for row in shopping_list %}
+		<tr>
+			<td> {{ row["name"] }}</td>
+			<td> {{ row["price"] }}</td>
+			<td> {{ row["quantity"] }}</td>
+			<td>
+				<button type="button" class="btn btn-info" onclick="GetRefresh('{{ url_for('drop_item', product_id=row['id'])}}')" class="btn btn-info" role="button">X</a>
+			</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>
+<p><a href={{ url_for('cargo') }}> Go to Cargo Selection</a></p>

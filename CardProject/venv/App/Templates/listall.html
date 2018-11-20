@@ -1,23 +1,39 @@
-{% extends 'base.html' %} {% block content %}
-<div style="margin-top: 50px;">
-  <table border="1">
-    <thead>
-      <td>Name</td>
-      <td>Price</td>
-      <td>Source Of Supply</td>
-      <td>Number Of Product</td>
-    </thead>
-
-    {% for row in rows %}
-    <tr>
-      <td><a href={{ url_for('productdetails', product_name=row["name"]) }} style="color:black">{{ row["name"] }}</a></td>
-      <td>{{ row["price"] }}</td>
-      <td>{{ row["sourceofsupply"] }}</td>
-      <td>{{ row["numberofproduct"] }}</td>
-      <td><a href={{ url_for('add_item', product_id=row["id"], redirect="listall") }}>  Add to Basket</a></td>
-    </tr>
-    {% endfor %}
+<script>
+	function GetAndRefresh(theUrl) {
+		var xmlHttp = new XMLHttpRequest();
+		xmlHttp.open( "GET", theUrl, false );
+		xmlHttp.send( null );
+		location.reload(true);
+	}
+</script>	
+<div class="lister">
+	<table class="table table-sm table-hover table-stripped">
+		<thead>
+			<tr>
+				<th scope="col">
+					<a class="btn btn-outline-dark" href={{ url_for('listall', sortby='name')}}>Name</a>
+				</th>
+				<th scope="col">
+					<a class="btn btn-outline-dark" href={{ url_for('listall', sortby='price')}}>Price</a>
+				</th>
+				<th scope="col">
+					<a class="btn btn-outline-dark" href={{ url_for('listall', sortby='sourceofsupply')}}>Source Of Supply</a>
+				</th>
+				<th scope="col">
+					<a class="btn btn-outline-dark" href={{ url_for('listall', sortby='numberofproduct')}}>Number Of Product</a>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for row in rows %}
+			<tr>
+				<td><a href={{ url_for('productdetails', product_name=row["name"]) }} style="color:black">{{ row["name"] }}</a></td>
+				<td>{{ row["price"] }}</td>
+				<td>{{ row["sourceofsupply"] }}</td>
+				<td>{{ row["numberofproduct"] }}</td>
+				<td><a class="btn btn-outline-primary" onclick="GetAndRefresh('{{ url_for('add_item', product_id=row['id']) }}')">Add</a></td>
+			</tr>
+			{% endfor %}
+		</tbody>
   </table>
 </div>
-<p><a href={{ url_for('cargo') }}> Go to Cargo Selection</a></p>
-{% endblock %}
