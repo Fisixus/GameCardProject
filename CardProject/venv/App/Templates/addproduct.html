@@ -3,7 +3,7 @@ function onSelectChanged(){
 	var selectBox = document.getElementById("product_type");
     var selectedValue = selectBox.options[selectBox.selectedIndex].value;
 	console.log(selectedValue);
-    if(selectedValue == "GameCard") {
+    if(selectedValue == "Gamecard") {
 		document.getElementById("boardgamediv").style.display = "none";
 		document.getElementById("gamecarddiv").style.display = "inline";
 	} else {
