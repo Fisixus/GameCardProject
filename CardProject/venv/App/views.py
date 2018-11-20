@@ -79,7 +79,10 @@ def listall():
 	
     con = connect_db()
     cur = con.cursor()
-    query =  "SELECT DISTINCT * FROM PRODUCT ORDER BY Name "
+    sortby = "name"
+    if(request.args.get("sortby") != None):
+        sortby = request.args.get("sortby")
+    query =  "SELECT DISTINCT * FROM PRODUCT ORDER BY %s " % (sortby)
     cur.execute(query)
     rows = cur.fetchall()
     query = "SELECT Role FROM CUSTOMER WHERE Email='%s'" % (session['user_email'])
@@ -97,7 +100,10 @@ def listgamecards():
         return redirect('login')
     con = connect_db()
     cur = con.cursor()
-    query =  "SELECT DISTINCT * FROM PRODUCT,GAMECARD WHERE id = pid ORDER BY Name "
+    sortby = "name"
+    if(request.args.get("sortby") != None):
+        sortby = request.args.get("sortby")
+    query =  "SELECT DISTINCT * FROM PRODUCT,GAMECARD WHERE id = pid ORDER BY %s " % (sortby)
     cur.execute(query)
     rows = cur.fetchall()
     query = "SELECT Role FROM CUSTOMER WHERE Email='%s'" % (session['user_email'])
@@ -115,7 +121,10 @@ def listboardgames():
 
     con = connect_db()
     cur = con.cursor()
-    query =  "SELECT DISTINCT * FROM PRODUCT,BOARDGAME WHERE id = pid ORDER BY Name " 
+    sortby = "name"
+    if(request.args.get("sortby") != None):
+        sortby = request.args.get("sortby")
+    query =  "SELECT DISTINCT * FROM PRODUCT,BOARDGAME WHERE id = pid ORDER BY %s " % (sortby)
     cur.execute(query)
     rows = cur.fetchall()
     query = "SELECT Role FROM CUSTOMER WHERE Email='%s'" % (session['user_email'])
