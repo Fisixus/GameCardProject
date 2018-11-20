@@ -165,6 +165,7 @@ def addproduct():
      
         cur.close()
         con.close()
+        return render_view2(render_template("addproduct.html"))
     else:
         return render_view2(render_template("addproduct.html"))
     
