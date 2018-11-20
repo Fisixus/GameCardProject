@@ -1,0 +1,26 @@
+<script>
+        function GetRefresh(theUrl) {
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+            xmlHttp.send( null );
+            location.reload(true);
+        }
+</script>
+<table class="table table-hower">
+    <h3>TOP 5</h3>
+    <thead>
+        <tr>
+            <th> Name </th>
+            <th> Sold</th>
+            
+        </th>
+    </thead>
+    <tbody>
+    {% for row in top_list %}
+        <tr>
+            <td> {{ row["name"] }}</td>
+            <td> {{ row["sold"] }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

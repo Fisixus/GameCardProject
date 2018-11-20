@@ -38,12 +38,16 @@ def render_view1(content):
     query = "SELECT Role FROM CUSTOMER WHERE Email='%s'" % (session['user_email'])
     cur.execute(query)
     cus_role = cur.fetchall()
+    query =  "SELECT Name, COUNT(Pid) AS Sold FROM BUY, PRODUCT WHERE Id=Pid  GROUP BY Name ORDER BY COUNT(Pid) DESC LIMIT 5"
+    cur.execute(query)
+    top_list = cur.fetchall()
     cur.close()
     con.close()
     
     navbar=render_template('navbar.html', cus_role=cus_role)
     basket=render_template('basket.html', shopping_list=rows)
-    return render_template('base_view1.html', content=content, basket=basket, navbar=navbar)
+    toplist=render_template('toplist.html', top_list=top_list)
+    return render_template('base_view1.html', content=content, basket=basket, navbar=navbar, toplist=toplist)
 
 def render_view2(content):
     con = connect_db()
