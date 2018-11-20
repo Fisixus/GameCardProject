@@ -165,7 +165,7 @@ def addproduct():
      
         cur.close()
         con.close()
-        return render_view2(render_template("addproduct.html"))
+        return redirect(url_for('addproduct'))
     else:
         return render_view2(render_template("addproduct.html"))
     
