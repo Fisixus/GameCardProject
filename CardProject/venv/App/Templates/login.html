@@ -1,18 +1,38 @@
 {% extends 'base_login.html' %} {% block content %}
-<div class="container2">
 
-  <form class="contact"  method="post" style="height:300px; margin-top: 130px;">
-    
+<div class="carousel slide carousel-fade" data-ride="carousel">
 
-    <h2>User Informations</h2>
-    <fieldset>
-      <input placeholder="User Email" type="email" tabindex="2" name="user_email" style="text-indent: 10px; width: 25%;" required>
-    </fieldset>
-    <fieldset>
-      <input placeholder="User Password" type="password" tabindex="2" name="user_password" style="text-indent: 10px; width: 25%;" required>
-    </fieldset>
-    <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Sign in</button>
-  </form>
+    <div class="carousel-inner" role="listbox">
+      <div class="item active">
+        <img class="d-block w-100" src="{{ url_for('static', filename="img/boardgame1.jpg")}}" alt="First slide">
+      </div>
+      <div class="item">
+        <img class="d-block w-100" src="{{ url_for('static', filename="img/gamecard1.jpg")}}" alt="Second slide">
+      </div>
+      <div class="item">
+        <img class="d-block w-100" src="{{ url_for('static', filename="img/boardgame2.jpg")}}" alt="Third slide">
+      </div>
+    </div>
 </div>
+
+<div class="title" >
+    <h1>Welcome</h1>
+    <div class="container2">
+
+        <form class="contact"  method="post" style="height:300px; margin-top: 75px;">
+          
+      
+          <h2>User Informations</h2>
+          <fieldset>
+            <input placeholder="User Email" type="email" tabindex="2" name="user_email" style="text-indent: 10px; width: 25%;" required>
+          </fieldset>
+          <fieldset>
+            <input placeholder="User Password" type="password" tabindex="2" name="user_password" style="text-indent: 10px; width: 25%;" required>
+          </fieldset>
+          <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Sign in</button>
+        </form>
+      </div>
+  </div>
+
 
 {% endblock %}
