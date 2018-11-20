@@ -35,15 +35,25 @@ def render_view1(content):
     query =  "SELECT P.Name AS name, P.Price As price, S.Quantity As quantity, P.Id As id FROM PRODUCT P, SHOPPINGLISTITEM S, CUSTOMER C WHERE S.Cid = C.Id AND S.Pid = P.Id AND C.Email = '%s'" % (session['user_email'])
     cur.execute(query)
     rows = cur.fetchall()
+    query = "SELECT Role FROM CUSTOMER WHERE Email='%s'" % (session['user_email'])
+    cur.execute(query)
+    cus_role = cur.fetchall()
     cur.close()
     con.close()
     
-    navbar=render_template('navbar.html')
+    navbar=render_template('navbar.html', cus_role=cus_role)
     basket=render_template('basket.html', shopping_list=rows)
     return render_template('base_view1.html', content=content, basket=basket, navbar=navbar)
 
 def render_view2(content):
-    navbar=render_template('navbar.html')
+    con = connect_db()
+    cur = con.cursor()
+    query = "SELECT Role FROM CUSTOMER WHERE Email='%s'" % (session['user_email'])
+    cur.execute(query)
+    cus_role = cur.fetchall()
+    cur.close()
+    con.close()
+    navbar=render_template('navbar.html', cus_role=cus_role)
     return render_template('base_view2.html', navbar=navbar, content=content)
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -85,13 +95,10 @@ def listall():
     query =  "SELECT DISTINCT * FROM PRODUCT ORDER BY %s " % (sortby)
     cur.execute(query)
     rows = cur.fetchall()
-    query = "SELECT Role FROM CUSTOMER WHERE Email='%s'" % (session['user_email'])
-    cur.execute(query)
-    cus_role = cur.fetchall()
     cur.close()
     con.close()
     
-    return render_view1(render_template('listall.html', rows=rows, cus_role=cus_role))
+    return render_view1(render_template('listall.html', rows=rows))
 
 
 @app.route('/listgamecards')
@@ -106,12 +113,9 @@ def listgamecards():
     query =  "SELECT DISTINCT * FROM PRODUCT,GAMECARD WHERE id = pid ORDER BY %s " % (sortby)
     cur.execute(query)
     rows = cur.fetchall()
-    query = "SELECT Role FROM CUSTOMER WHERE Email='%s'" % (session['user_email'])
-    cur.execute(query)
-    cus_role = cur.fetchall()
     cur.close()
     con.close()
-    return render_view1(render_template('listgamecards.html', rows=rows, cus_role=cus_role))
+    return render_view1(render_template('listgamecards.html', rows=rows))
 
 
 @app.route('/listboardgames')
@@ -127,13 +131,10 @@ def listboardgames():
     query =  "SELECT DISTINCT * FROM PRODUCT,BOARDGAME WHERE id = pid ORDER BY %s " % (sortby)
     cur.execute(query)
     rows = cur.fetchall()
-    query = "SELECT Role FROM CUSTOMER WHERE Email='%s'" % (session['user_email'])
-    cur.execute(query)
-    cus_role = cur.fetchall()
     cur.close()
     con.close()
 
-    return render_view1(render_template('listboardgames.html', rows=rows, cus_role=cus_role))
+    return render_view1(render_template('listboardgames.html', rows=rows))
 
 @app.route('/addproduct', methods=['GET', 'POST'])
 def addproduct():
