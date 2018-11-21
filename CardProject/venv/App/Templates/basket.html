@@ -22,7 +22,7 @@
 			<td> {{ row["price"] }}</td>
 			<td> {{ row["quantity"] }}</td>
 			<td>
-				<button type="button" class="btn btn-info" onclick="GetRefresh('{{ url_for('drop_item', product_id=row['id'])}}')" class="btn btn-info" role="button">X</a>
+				<a><button type="button" class="btn btn-info" onclick="GetRefresh('{{ url_for('drop_item', product_id=row['id'])}}')" class="btn btn-info" role="button">X</a>
 			</td>
 		</tr>
 	{% endfor %}

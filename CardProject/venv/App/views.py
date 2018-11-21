@@ -99,10 +99,13 @@ def listall():
     query =  "SELECT DISTINCT * FROM PRODUCT ORDER BY %s " % (sortby)
     cur.execute(query)
     rows = cur.fetchall()
+    query = "SELECT Role FROM CUSTOMER WHERE Email='%s'" % (session['user_email'])
+    cur.execute(query)
+    cus_role = cur.fetchall()
     cur.close()
     con.close()
     
-    return render_view1(render_template('listall.html', rows=rows))
+    return render_view1(render_template('listall.html', rows=rows, cus_role=cus_role))
 
 
 @app.route('/listgamecards')
@@ -117,9 +120,12 @@ def listgamecards():
     query =  "SELECT DISTINCT * FROM PRODUCT,GAMECARD WHERE id = pid ORDER BY %s " % (sortby)
     cur.execute(query)
     rows = cur.fetchall()
+    query = "SELECT Role FROM CUSTOMER WHERE Email='%s'" % (session['user_email'])
+    cur.execute(query)
+    cus_role = cur.fetchall()
     cur.close()
     con.close()
-    return render_view1(render_template('listgamecards.html', rows=rows))
+    return render_view1(render_template('listgamecards.html', rows=rows, cus_role=cus_role))
 
 
 @app.route('/listboardgames')
@@ -135,10 +141,26 @@ def listboardgames():
     query =  "SELECT DISTINCT * FROM PRODUCT,BOARDGAME WHERE id = pid ORDER BY %s " % (sortby)
     cur.execute(query)
     rows = cur.fetchall()
+    query = "SELECT Role FROM CUSTOMER WHERE Email='%s'" % (session['user_email'])
+    cur.execute(query)
+    cus_role = cur.fetchall()
     cur.close()
     con.close()
 
-    return render_view1(render_template('listboardgames.html', rows=rows))
+    return render_view1(render_template('listboardgames.html', rows=rows, cus_role=cus_role))
+
+@app.route('/deleteproduct')
+def deleteproduct():
+    if 'user_email' not in session.keys():
+        return redirect('login')
+    con = connect_db()
+    cur = con.cursor()
+    query = "DELETE FROM PRODUCT WHERE Id = %s " % (request.args.get('product_id'))
+    cur.execute(query)
+    con.commit()
+    cur.close()
+    con.close()
+    return redirect('listall')
 
 @app.route('/addproduct', methods=['GET', 'POST'])
 def addproduct():
