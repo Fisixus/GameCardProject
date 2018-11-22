@@ -16,7 +16,30 @@
       }
       document.getElementById("demo").innerHTML = txt;
   }
-</script>	
+</script>
+
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+          
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+         
+            <div class="modal-body">
+                <p>You are about to delete one track, this procedure is irreversible.</p>
+                <p>Do you want to proceed?</p>
+                <p class="debug-url"></p>
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-danger btn-ok">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="lister">
 	<table class="table table-sm table-hover table-stripped">
 		<thead>
@@ -46,14 +69,7 @@
 				{% for role in cus_role %}
 					{% if role[0][0] == "A"  %}
 					<td>
-						<button class="btn btn-large btn-primary" data-toggle="confirmation"
-						data-btn-ok-label="Continue" data-btn-ok-class="btn-success" onclick="GetRefresh('{{ url_for('deleteproduct', product_id=row['id'])}}')"
-						data-btn-ok-icon-class="material-icons" data-btn-ok-icon-content="check"
-						data-btn-cancel-label="Stop!" data-btn-cancel-class="btn-danger"
-						data-btn-cancel-icon-class="material-icons" data-btn-cancel-icon-content="close"
-						data-title="Is it ok?" data-content="Delete process can be dangerous. Are you sure?">
-						X
-						</button> 
+						<a class="btn btn-outline-danger" data-href="'{{ url_for('deleteproduct', product_id=row['id'])}}'" data-product="{{ row['name'] }}" data-toggle="modal" data-target="#confirm-delete" >X</a>
 					</td>
 					{% endif %}
 				{% endfor %}
@@ -62,3 +78,5 @@
 		</tbody>
   </table>
 </div>
+
+<script src="{{url_for('static', filename='js/confirm-delete.js')}}"></script>
