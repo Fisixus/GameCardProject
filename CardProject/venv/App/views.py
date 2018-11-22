@@ -60,6 +60,36 @@ def render_view2(content):
     navbar=render_template('navbar.html', cus_role=cus_role)
     return render_template('base_view2.html', navbar=navbar, content=content)
 
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == "POST":
+        con = connect_db()
+        cur = con.cursor()
+        query = "SELECT * FROM CUSTOMER ORDER BY Id DESC"
+        cur.execute(query)
+        rows = cur.fetchall()
+        con.commit()
+        checker = True
+        counter = 0
+        for row in rows:
+#            if request.form.get('customer_email') is row[counter][1]:
+#                checker = False
+            counter = counter + 1
+        if(checker):
+            query = "INSERT INTO CUSTOMER values (%s, '%s', '%s', '%s', '%s', '%s', '%s')" % (rows[0][0]+1, request.form.get('customer_email'), request.form.get('customer_address') ,request.form.get('customer_fname'), request.form.get('customer_lname'), request.form.get('customer_password'), 'C')
+            cur.execute(query)
+            con.commit()
+            cur.close()
+            con.close()
+            return render_template('success.html', success_header="Congratulations!" ,success_message="Your registration has been successfully approved.") 
+        else:
+            cur.close()
+            con.close()
+            return render_template("error.html", error_message="This email address already exists!!")     
+        
+    else:
+        return render_template('signup.html')
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == "POST":

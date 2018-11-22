@@ -1,0 +1,37 @@
+{% extends 'base_login.html' %} {% block content %}
+<form style="padding: 10px; border: 1px solid lightgray; border-radius: 10px;" action="/signup" method="post">
+    <fieldset>
+        <div class="form-group row">
+            <label class="col-sm-2"><strong>Email</strong></label>
+            <input  class="form-control col-sm-6"  type="email" placeholder="name@example.com" name="customer_email" required>
+        </div>
+    </fieldset>
+    <fieldset>
+        <div class="form-group row">
+            <label class="col-sm-2"><strong>Password</strong></label>
+            <input  class="form-control col-sm-6"  type="password" placeholder="Password" name="customer_password" required>
+        </div>
+    </fieldset>
+    <fieldset>
+        <div class="form-group row">
+            <label class="col-sm-2"><strong>First Name</strong></label>
+            <input  class="form-control col-sm-6"  placeholder="John" name="customer_fname" >
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <div class="form-group row">
+            <label class="col-sm-2"><strong>Last Name</strong> </label>
+            <input  class="form-control col-sm-6"  placeholder="Doe" name="customer_lname" >
+        </div>
+    </fieldset>
+    <fieldset>
+        <div class="form-group row">
+            <label class="col-sm-2"><strong>Address</strong></label>
+            <textarea class="form-control col-sm-6"  rows="3" name="customer_address" placeholder="1234 Main St Apartment, studio, or floor" ></textarea>
+        </div>
+    </fieldset>
+	<button type="submit" class="btn btn-primary mb-2">Submit</button>
+</form>
+
+{% endblock %}

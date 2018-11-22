@@ -21,20 +21,17 @@
 </div>
 
 <div class="title" >
-    <h1>Welcome</h1>
-    <div class="container2">
-
+    <div class="container">
         <form class="contact"  method="post" style="height:300px; margin-top: 75px;">
-          
-      
           <h2>User Informations</h2>
           <fieldset>
-            <input placeholder="User Email" type="email" tabindex="2" name="user_email" style="text-indent: 10px; width: 25%;" required>
+            <input placeholder="User Email" type="email" tabindex="2" class="form-control" name="user_email" style="margin: 0 auto; text-indent: 10px; width: 25%;" required>
           </fieldset>
           <fieldset>
-            <input placeholder="User Password" type="password" tabindex="2" name="user_password" style="text-indent: 10px; width: 25%;" required>
+            <input placeholder="User Password" type="password" tabindex="2" class="form-control"  name="user_password" style="margin: 0 auto; text-indent: 10px; width: 25%;" required>
           </fieldset>
-          <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Sign in</button>
+          <button name="submit" class="btn btn-primary" type="submit" id="contact-submit" data-submit="...Sending">Sign In</button>
+          <a><button type="button" class="btn btn-success" onclick="myWindow = window.open('/signup', 'New Member Page', 'width=800, height=600');" role="button">Sign Up</a>
         </form>
       </div>
   </div>
