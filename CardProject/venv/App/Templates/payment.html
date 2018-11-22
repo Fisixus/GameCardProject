@@ -1,18 +1,20 @@
-<div style="margin-top: 50px">
-	<p style="color:red" style="padding:20px 0px">You Buy:</p>
-	
-	<table border="1">  
-		<thead>
-			<td>Name</td>
-			<td>Price</td>
-			<td>Quantity</td>
-		</thead>
-		{% for row in shopping_list %}
-		<tr>
-			<td>{{ row["name"] }}</td>
-			<td>{{ row["price"] }}</td>
-			<td>{{ row["quantity"] }}</td>
-		</tr>
-		{% endfor %}
-	</table>
+<div class="row" style="margin-top:20px">
+	<div class="col-4" >
+		<h3 style="color:black" style="padding:20px 0px">You Buy:</h3>
+		
+		<table class="table table-hower">  
+			<thead>
+				<th>Name</th>
+				<th>Quantity</th>
+				<th>Price</th>
+			</thead>
+			{% for row in shopping_list %}
+			<tr>
+				<td>{{ row["name"] }}</td>
+				<td>{{ row["quantity"] }}</td>
+				<td>{{ row["price"] }}</td>
+			</tr>
+			{% endfor %}
+		</table>
+	</div>
 </div>

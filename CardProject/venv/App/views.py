@@ -271,7 +271,7 @@ def cargo():
         }
     ]
     con.close()
-    return render_view1(render_template("cargo.html", shopping_list=rows, cargo_companies=cargo_companies))
+    return render_view2(render_template("cargo.html", shopping_list=rows, cargo_companies=cargo_companies))
 
 @app.route('/drop_item')
 def drop_item():

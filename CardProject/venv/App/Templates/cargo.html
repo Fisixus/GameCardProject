@@ -1,10 +1,11 @@
-<div class="row"  style="margin-top: 50px;">
+<div class="row" >
     <div class="col-6">
-        <table border="1">  
+        <table class="table table-hower" >  
             <thead>
-                <td>Name</td>
-                <td>Price</td>
-                <td>Quantity</td>
+                <th> Name</th>
+                <th> Price</th>
+                <th> Quantity</th>
+                <th> </th>
             </thead>
             {% for row in shopping_list %}
             <tr>
@@ -17,9 +18,9 @@
         </table>
     </div>
     <div class="col-6">
-        <table border="1">
+        <table class="table table-hower" >
             <thead>
-                <td> Company Name </td>
+                <th> Company Name </th>
             </thead>
             {% for cargo in cargo_companies %}
             <tr>
