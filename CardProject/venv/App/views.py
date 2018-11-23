@@ -72,8 +72,8 @@ def signup():
         checker = True
         counter = 0
         for row in rows:
-#            if request.form.get('customer_email') is row[counter][1]:
-#                checker = False
+            if request.form.get('customer_email') == row[1]:
+                checker = False
             counter = counter + 1
         if(checker):
             query = "INSERT INTO CUSTOMER values (%s, '%s', '%s', '%s', '%s', '%s', '%s')" % (rows[0][0]+1, request.form.get('customer_email'), request.form.get('customer_address') ,request.form.get('customer_fname'), request.form.get('customer_lname'), request.form.get('customer_password'), 'C')

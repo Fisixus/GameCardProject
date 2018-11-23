@@ -21,20 +21,36 @@
 </div>
 
 <div class="title" >
-    <div class="container">
-        <form class="contact"  method="post" style="height:300px; margin-top: 75px;">
-          <h2>User Informations</h2>
-          <fieldset>
-            <input placeholder="User Email" type="email" tabindex="2" class="form-control" name="user_email" style="margin: 0 auto; text-indent: 10px; width: 25%;" required>
-          </fieldset>
-          <fieldset>
-            <input placeholder="User Password" type="password" tabindex="2" class="form-control"  name="user_password" style="margin: 0 auto; text-indent: 10px; width: 25%;" required>
-          </fieldset>
-          <button name="submit" class="btn btn-primary" type="submit" id="contact-submit" data-submit="...Sending">Sign In</button>
-          <a><button type="button" class="btn btn-success" onclick="myWindow = window.open('/signup', 'New Member Page', 'width=800, height=600');" role="button">Sign Up</a>
-        </form>
-      </div>
+  <div class="container">
+    <form class="contact" method="post" style="width: 300px; height:300px; margin-top: 75px; margin-left: auto; margin-right: auto;">
+      <fieldset style="border: 1px solid gray; border-radius: 10px; background: rgba(0, 0, 0, 0.3); padding: 10px;">
+        <div class="row" style="margin-bottom: 10px;">
+          <div class="col-sm-12">
+            <h2 style="color: white;">User Informations</h2>
+          </div>
+        </div>
+        <div class="row" style="margin-bottom: 10px;">
+          <div class="col-sm-12">
+            <input  placeholder ="User Email" type="email" tabindex="2" class="form-control" name="user_email" required>
+          </div>
+        </div>
+        <div class="row" style="margin-bottom: 10px;">
+          <div class="col-sm-12">
+            <input placeholder="User Password" type="password" tabindex="2" class="form-control"  name="user_password" required>
+          </div>
+        </div>
+        <div class="row" style="margin-bottom: 10px;">
+          <div class="col-sm-3">
+            <button name="submit" class="btn btn-primary" type="submit" id="contact-submit" data-submit="...Sending">Sign In</button>
+          </div>
+          <div class="col-sm-3">
+            <button type="button" class="btn btn-success" onclick="myWindow = window.open('/signup', 'New Member Page', 'width=800, height=600');" role="button">Sign Up</button>
+          </div>  
+        </div>
+      </fieldset>
+    </form>
   </div>
+</div>
 
 <script src="{{url_for('static', filename='js/carousel-control.js')}}"></script>
 
